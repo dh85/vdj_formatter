@@ -12,7 +12,6 @@ import (
 )
 
 func main() {
-
 	if len(os.Args) != 2 {
 		fmt.Println()
 		fmt.Println("ERROR: Missing playlist input. Please enter a valid format e.g.")
@@ -58,29 +57,23 @@ func main() {
 
 	row = rowTop
 
-	if row[0] == "sep=" {
-		rowSecond, err := csvReader.Read()
-		if err != nil {
-			fmt.Println("ERROR: reading second row of CSV:", err)
-			fmt.Println()
-			os.Exit(1)
-		}
-
-		row = rowSecond
+	rowSecond, err := csvReader.Read()
+	if err != nil {
+		fmt.Println("ERROR: reading second row of CSV:", err)
+		fmt.Println()
+		os.Exit(1)
 	}
+
+	row = rowSecond
 
 	artistIndex := Contains(row, "Artist")
 	if artistIndex == -1 {
-		fmt.Println("ERROR: Couldn't find Artist column")
-		fmt.Println()
-		os.Exit(1)
+		artistIndex = 1
 	}
 
 	titleIndex := Contains(row, "Title")
 	if titleIndex == -1 {
-		fmt.Println("ERROR: Couldn't find Title column")
-		fmt.Println()
-		os.Exit(1)
+		titleIndex = 0
 	}
 
 	rows, err := csvReader.ReadAll()
@@ -120,11 +113,11 @@ func welcomeUser() bool {
 		userInput := getUserInput("Your choice", r)
 		if userInput == "1" || userInput == "" {
 			return false
-		} else if userInput == "2" {
-			return true
-		} else {
+		} else if userInput != "2" {
 			userInput = ""
 			fmt.Println("WARNING: Invalid input. Try again with 1 or 2...")
+		} else {
+			return true
 		}
 	}
 }
