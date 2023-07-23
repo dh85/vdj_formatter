@@ -7,7 +7,7 @@
 *.dll
 *.so
 *.dylib
-mixxx_playlist_formatter
+vdj_playlist_formatter
 output.txt
 
 # Test binary, built with `go test -c`
